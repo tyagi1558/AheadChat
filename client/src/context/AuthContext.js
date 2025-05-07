@@ -1,9 +1,9 @@
-import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import { setupSocket, disconnectSocket } from '../socket';
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
+import { setupSocket, disconnectSocket } from "../socket";
 
 const AuthContext = createContext();
-
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,18 +13,18 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadUser = async () => {
       setLoading(true);
-      
+
       try {
-        const storedUser = localStorage.getItem('user');
-        
+        const storedUser = localStorage.getItem("user");
+
         if (storedUser) {
           const userData = JSON.parse(storedUser);
           setUser(userData);
           setupSocket(userData._id);
         }
       } catch (err) {
-        console.error('Error loading user:', err);
-        localStorage.removeItem('user');
+        console.error("Error loading user:", err);
+        localStorage.removeItem("user");
         setUser(null);
       } finally {
         setLoading(false);
@@ -43,23 +43,26 @@ export const AuthProvider = ({ children }) => {
   const register = async (username, password) => {
     setLoading(true);
     setError(null);
-    
-    try {
-      const { data } = await axios.post('/api/auth/register', {
-        username,
-        password,
-      });
 
-      localStorage.setItem('user', JSON.stringify(data));
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/register`,
+        {
+          username,
+          password,
+        }
+      );
+
+      localStorage.setItem("user", JSON.stringify(data));
       setUser(data);
       setupSocket(data._id);
-      
+
       return data;
     } catch (err) {
       setError(
         err.response && err.response.data.message
           ? err.response.data.message
-          : 'Registration failed'
+          : "Registration failed"
       );
       throw err;
     } finally {
@@ -71,23 +74,26 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     setLoading(true);
     setError(null);
-    
-    try {
-      const { data } = await axios.post('/api/auth/login', {
-        username,
-        password,
-      });
 
-      localStorage.setItem('user', JSON.stringify(data));
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/login`,
+        {
+          username,
+          password,
+        }
+      );
+
+      localStorage.setItem("user", JSON.stringify(data));
       setUser(data);
       setupSocket(data._id);
-      
+
       return data;
     } catch (err) {
       setError(
         err.response && err.response.data.message
           ? err.response.data.message
-          : 'Login failed'
+          : "Login failed"
       );
       throw err;
     } finally {
@@ -98,7 +104,7 @@ export const AuthProvider = ({ children }) => {
   // Logout user
   const logout = async () => {
     setLoading(true);
-    
+
     try {
       if (user && user.token) {
         // Configure headers
@@ -107,13 +113,13 @@ export const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        
-        await axios.post('/api/auth/logout', {}, config);
+
+        await axios.post("/api/auth/logout", {}, config);
       }
     } catch (err) {
-      console.error('Error during logout:', err);
+      console.error("Error during logout:", err);
     } finally {
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
       disconnectSocket();
       setUser(null);
       setLoading(false);
