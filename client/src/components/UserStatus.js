@@ -1,9 +1,7 @@
-// import { useState, useEffect } from "react";
 import { Box, Typography, Tooltip } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { styled, keyframes } from "@mui/material/styles";
 
-// Create typing animation
 const typingAnimation = keyframes`
   0% { opacity: 0.2; }
   20% { opacity: 1; }

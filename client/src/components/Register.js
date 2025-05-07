@@ -10,9 +10,11 @@ import {
   Alert,
   Stack,
   Paper,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { PersonAddAlt } from "@mui/icons-material";
-import AuthLayout from "../components/AuthLayout"; // Make sure the path is correct
+import { PersonAddAlt, Visibility, VisibilityOff } from "@mui/icons-material";
+import AuthLayout from "../components/AuthLayout";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +24,8 @@ const Register = () => {
   });
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { register, error } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -102,21 +106,49 @@ const Register = () => {
               onChange={onChange}
               fullWidth
             />
+
             <TextField
               label="Password"
-              type="password"
               name="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={onChange}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                      aria-label="toggle password visibility"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
+
             <TextField
               label="Confirm Password"
-              type="password"
               name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={onChange}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                      edge="end"
+                      aria-label="toggle confirm password visibility"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Button type="submit" variant="contained" fullWidth size="large">

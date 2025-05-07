@@ -11,13 +11,11 @@ import Chat from "./components/Chat";
 import "./App.css";
 import { ColorModeProvider, useColorMode } from "./context/ThemeContext";
 
-// PrivateRoute component to protect routes
 const PrivateRoute = ({ element }) => {
   const storedUser = localStorage.getItem("user");
   return storedUser ? element : <Navigate to="/login" />;
 };
 
-// ChatWithTheme component to provide theme toggle prop to Chat component
 const ChatWithTheme = () => {
   const { toggleColorMode, mode } = useColorMode();
   return <Chat toggleTheme={toggleColorMode} isDarkMode={mode === "dark"} />;

@@ -2,8 +2,6 @@ import { Box, Typography, Paper } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { styled } from "@mui/material/styles";
-
-// Create animated message component
 const AnimatedPaper = styled(Paper)(({ theme }) => ({
   transition: "all 0.3s ease-in-out",
   "&:hover": {
@@ -21,7 +19,6 @@ const Message = ({ message, currentUser }) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  // Message status icon
   const renderStatusIcon = () => {
     if (!isSentByUser) return null;
 
@@ -33,7 +30,7 @@ const Message = ({ message, currentUser }) => {
       case "read":
         return (
           <DoneAllIcon fontSize="small" sx={{ color: "#4fc3f7", ml: 0.5 }} />
-        ); // Blue ticks for read messages
+        );
       default:
         return null;
     }

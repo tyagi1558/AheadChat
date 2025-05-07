@@ -1,4 +1,3 @@
-// components/AuthLayout.js
 import { Box, Container } from "@mui/material";
 
 const AuthLayout = ({ children }) => {

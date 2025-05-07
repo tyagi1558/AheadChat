@@ -46,12 +46,10 @@ const ChatInput = ({ currentChat, sendMessage, userId }) => {
       });
     }
 
-    // Clear previous timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
-    // Set new timeout
     typingTimeoutRef.current = setTimeout(() => {
       setIsTyping(false);
       socket.emit("typing", {
@@ -67,7 +65,6 @@ const ChatInput = ({ currentChat, sendMessage, userId }) => {
       sendMessage(message);
       setMessage("");
 
-      // Clear typing indicator
       setIsTyping(false);
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
@@ -78,7 +75,6 @@ const ChatInput = ({ currentChat, sendMessage, userId }) => {
         isTyping: false,
       });
 
-      // Focus input after sending
       if (inputRef.current) {
         inputRef.current.focus();
       }
@@ -93,12 +89,10 @@ const ChatInput = ({ currentChat, sendMessage, userId }) => {
   };
 
   useEffect(() => {
-    // Focus input when currentChat changes
     if (inputRef.current && currentChat) {
       inputRef.current.focus();
     }
 
-    // Cleanup on unmount
     return () => {
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);

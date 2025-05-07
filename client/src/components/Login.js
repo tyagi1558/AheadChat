@@ -10,14 +10,17 @@ import {
   Alert,
   Stack,
   Paper,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { LockOutlined } from "@mui/icons-material";
-import AuthLayout from "../components/AuthLayout"; // Make sure path is correct
+import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import AuthLayout from "../components/AuthLayout";
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login, error } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -88,11 +91,24 @@ const Login = () => {
             />
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={onChange}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Button type="submit" variant="contained" fullWidth size="large">

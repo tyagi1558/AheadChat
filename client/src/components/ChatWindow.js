@@ -5,7 +5,6 @@ import { Box, CircularProgress } from "@mui/material";
 const ChatWindow = ({ messages, currentUser }) => {
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom on new messages
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
